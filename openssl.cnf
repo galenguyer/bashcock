@@ -1,0 +1,52 @@
+[ req ]
+string_mask = utf8only
+prompt = no
+distinguished_name = req_distinguished_name
+
+[ req_distinguished_name ]
+C = US
+ST = Washington
+L = Seattle
+O = Galen Guyer
+CN = Galen Guyer
+emailAddress = galen@galenguyer.com
+
+[ ca ]
+default_ca = ca_default
+
+[ ca_default ]
+dir = ./ca
+certificate = $dir/ca.cert.pem
+private_key = $dir/private/key.pem
+new_certs_dir = $dir/certs
+database = $dir/index.txt
+serial = $dir/serial
+
+name_opt = ca_default
+cert_opt = ca_default
+
+default_days = 30
+default_md = sha256
+copy_extensions = copy
+unique_subject = no
+preserve = no
+policy = policy_match
+
+[ policy_match ]
+countryName = match
+stateOrProvinceName = match
+organizationName = match
+commonName = supplied
+emailAddress = optional
+
+[ ca_extensions ]
+basicConstraints = critical,CA:true,pathlen:0
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always
+keyUsage = keyCertSign
+
+[ leaf_extensions ]
+basicConstraints = CA:false
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always
+keyUsage = nonRepudiation,digitalSignature,keyEncipherment
